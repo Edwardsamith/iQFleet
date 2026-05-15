@@ -7,7 +7,12 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @jakarta.persistence.Entity
-@Table(name = "registration_requests")
+@Table(
+    name = "registration_requests",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_registration_request_user", columnNames = "user_id")
+    }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,7 +22,7 @@ public class RegistrationRequest extends Entity {
 
     @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_registration_request_user"))
     private User user;
 
     @Enumerated(EnumType.STRING)
@@ -29,7 +34,7 @@ public class RegistrationRequest extends Entity {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewed_by")
+    @JoinColumn(name = "reviewed_by", foreignKey = @ForeignKey(name = "fk_registration_request_reviewed_by"))
     private User reviewedBy;
 
     @Column(name = "decision_date")

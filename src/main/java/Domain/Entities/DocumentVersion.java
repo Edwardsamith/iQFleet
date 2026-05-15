@@ -17,7 +17,7 @@ public class DocumentVersion extends Entity {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "document_id", nullable = false)
+    @JoinColumn(name = "document_id", nullable = false, foreignKey = @ForeignKey(name = "fk_document_version_document"))
     private Document document;
 
     @Column(name = "file_url", length = 500)

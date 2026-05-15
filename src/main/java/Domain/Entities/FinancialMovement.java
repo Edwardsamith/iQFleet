@@ -50,12 +50,12 @@ public class FinancialMovement extends Entity {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id", nullable = false)
+    @JoinColumn(name = "vehicle_id", nullable = false, foreignKey = @ForeignKey(name = "fk_financial_movement_vehicle"))
     private Vehicle vehicle;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
+    @JoinColumn(name = "driver_id", foreignKey = @ForeignKey(name = "fk_financial_movement_driver"))
     private Driver driver;
 
     @Column(name = "registered_by", length = 100)

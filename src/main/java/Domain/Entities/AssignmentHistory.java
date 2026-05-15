@@ -16,12 +16,12 @@ public class AssignmentHistory extends Entity {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id", nullable = false)
+    @JoinColumn(name = "vehicle_id", nullable = false, foreignKey = @ForeignKey(name = "fk_assignment_history_vehicle"))
     private Vehicle vehicle;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id", nullable = false)
+    @JoinColumn(name = "driver_id", nullable = false, foreignKey = @ForeignKey(name = "fk_assignment_history_driver"))
     private Driver driver;
 
     @Column(name = "start_date", nullable = false)

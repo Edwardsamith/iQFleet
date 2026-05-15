@@ -60,12 +60,12 @@ public class Document extends Entity {
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
+    @JoinColumn(name = "driver_id", foreignKey = @ForeignKey(name = "fk_document_driver"))
     private Driver driver;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id")
+    @JoinColumn(name = "vehicle_id", foreignKey = @ForeignKey(name = "fk_document_vehicle"))
     private Vehicle vehicle;
 
     @ToString.Exclude

@@ -44,8 +44,10 @@ public class Vehicle extends Entity {
     @Builder.Default
     private VehicleStatus status = VehicleStatus.ACTIVE;
 
-    @Column(name = "responsible", length = 100)
-    private String responsible;
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "responsible_id", foreignKey = @ForeignKey(name = "fk_vehicle_responsible_user"))
+    private User responsible;
 
     @Column(name = "registration_date")
     private LocalDate registrationDate;
@@ -55,7 +57,7 @@ public class Vehicle extends Entity {
 
     @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "driver_id")
+    @JoinColumn(name = "driver_id", foreignKey = @ForeignKey(name = "fk_vehicle_assigned_driver"))
     private Driver assignedDriver;
 
     @ToString.Exclude
