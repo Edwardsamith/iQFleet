@@ -14,6 +14,10 @@ public interface GenericJpaRepository<T extends Entity>
     // save(T), findById(UUID), findAll(), existsById(UUID) are already
     // provided by JpaRepository with the same signatures — no override needed.
 
+    default T saveee(T entity) {
+        return save(entity);
+    }
+
     default T update(T entity) {
         return save(entity);
     }
