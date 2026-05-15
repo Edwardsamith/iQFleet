@@ -27,7 +27,7 @@ public class CreateExampleCommandHandler implements IRequestHandler<CreateExampl
         try {
             Example example = new Example();
             example.setName(request.getName());
-            _exampleRepository.save(example);
+            _exampleRepository.saveee(example);
             return Result.Success();
         }catch (Exception e){
             return Result.Failure(e.getMessage());
