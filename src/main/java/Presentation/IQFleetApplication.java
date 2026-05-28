@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "Application",
         "Infrastructure"
 })
-@EntityScan(basePackages = "Domain.Entities")
+@EntityScan(basePackages = "Infrastructure.Persistence.Entities")
 @EnableJpaRepositories(basePackages = "Infrastructure.Repositories")
 public class IQFleetApplication {
 

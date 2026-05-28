@@ -4,7 +4,7 @@ import Domain.Entities.Driver;
 import Domain.Enums.DriverStatus;
 import Domain.Enums.IdentificationType;
 import Domain.Enums.LicenseCategory;
-import Infrastructure.Repositories.JpaDriverRepository;
+import Domain.Repositories.DriverRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,14 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DriverSeeder {
 
-    private final JpaDriverRepository driverRepository;
+    private final DriverRepository driverRepository;
 
     /**
      * @return [0]=Carlos, [1]=Luis, [2]=María, [3]=Jorge(inactivo), [4]=Ana
      */
     public List<Driver> seed() {
-        List<Driver> drivers = driverRepository.saveAll(List.of(
-                Driver.builder()
+        List<Driver> drivers = List.of(
+                driverRepository.save(Driver.builder()
                         .identificationType(IdentificationType.CC)
                         .identificationNumber("1234567890")
                         .firstName("Carlos")
@@ -37,9 +37,9 @@ public class DriverSeeder {
                         .address("Cra 15 #45-23, Bogotá")
                         .status(DriverStatus.ACTIVE)
                         .registrationDate(LocalDate.now().minusYears(3))
-                        .build(),
+                        .build()),
 
-                Driver.builder()
+                driverRepository.save(Driver.builder()
                         .identificationType(IdentificationType.CC)
                         .identificationNumber("0987654321")
                         .firstName("Luis")
@@ -52,9 +52,9 @@ public class DriverSeeder {
                         .address("Cll 72 #10-15, Bogotá")
                         .status(DriverStatus.ACTIVE)
                         .registrationDate(LocalDate.now().minusYears(2))
-                        .build(),
+                        .build()),
 
-                Driver.builder()
+                driverRepository.save(Driver.builder()
                         .identificationType(IdentificationType.CE)
                         .identificationNumber("5566778899")
                         .firstName("María")
@@ -67,9 +67,9 @@ public class DriverSeeder {
                         .address("Av. 68 #30-40, Bogotá")
                         .status(DriverStatus.ACTIVE)
                         .registrationDate(LocalDate.now().minusYears(1).minusMonths(6))
-                        .build(),
+                        .build()),
 
-                Driver.builder()
+                driverRepository.save(Driver.builder()
                         .identificationType(IdentificationType.CC)
                         .identificationNumber("1122334455")
                         .firstName("Jorge")
@@ -84,9 +84,9 @@ public class DriverSeeder {
                         .registrationDate(LocalDate.now().minusYears(4))
                         .deactivationDate(LocalDate.now().minusMonths(2))
                         .deactivationReason("Licencia vencida. Pendiente renovación ante el RUNT.")
-                        .build(),
+                        .build()),
 
-                Driver.builder()
+                driverRepository.save(Driver.builder()
                         .identificationType(IdentificationType.CC)
                         .identificationNumber("9988776655")
                         .firstName("Ana")
@@ -99,8 +99,8 @@ public class DriverSeeder {
                         .address("Cra 30 #60-80, Bogotá")
                         .status(DriverStatus.ACTIVE)
                         .registrationDate(LocalDate.now().minusMonths(10))
-                        .build()
-        ));
+                        .build())
+        );
 
         log.info("{} conductores creados.", drivers.size());
         return drivers;
