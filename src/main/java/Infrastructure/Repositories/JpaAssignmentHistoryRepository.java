@@ -1,7 +1,7 @@
 package Infrastructure.Repositories;
 
-import Domain.Entities.AssignmentHistory;
-import Domain.Repositories.AssignmentHistoryRepository;
+import Infrastructure.Persistence.Entities.AssignmentHistoryJpaEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,14 +9,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface JpaAssignmentHistoryRepository
-        extends GenericJpaRepository<AssignmentHistory>, AssignmentHistoryRepository {
+public interface JpaAssignmentHistoryRepository extends JpaRepository<AssignmentHistoryJpaEntity, UUID> {
 
-    List<AssignmentHistory> findByVehicleId(UUID vehicleId);
+    List<AssignmentHistoryJpaEntity> findByVehicle_Id(UUID vehicleId);
 
-    List<AssignmentHistory> findByDriverId(UUID driverId);
+    List<AssignmentHistoryJpaEntity> findByDriver_Id(UUID driverId);
 
-    Optional<AssignmentHistory> findByVehicleIdAndEndDateIsNull(UUID vehicleId);
+    Optional<AssignmentHistoryJpaEntity> findByVehicle_IdAndEndDateIsNull(UUID vehicleId);
 
-    Optional<AssignmentHistory> findByDriverIdAndEndDateIsNull(UUID driverId);
+    Optional<AssignmentHistoryJpaEntity> findByDriver_IdAndEndDateIsNull(UUID driverId);
 }

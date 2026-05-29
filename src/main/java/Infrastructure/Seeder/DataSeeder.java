@@ -3,7 +3,7 @@ package Infrastructure.Seeder;
 import Domain.Entities.Driver;
 import Domain.Entities.User;
 import Domain.Entities.Vehicle;
-import Infrastructure.Repositories.JpaUserRepository;
+import Domain.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataSeeder implements ApplicationRunner {
 
-    private final JpaUserRepository userRepository;
+    private final UserRepository userRepository;
 
     private final UserSeeder               userSeeder;
     private final DriverSeeder             driverSeeder;
@@ -30,7 +30,7 @@ public class DataSeeder implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
-        if (userRepository.count() > 0) {
+        if (!userRepository.findAll().isEmpty()) {
             log.info("Base de datos ya inicializada, omitiendo seeder.");
             return;
         }

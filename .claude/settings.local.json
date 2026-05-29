@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(mvn spring-boot:run *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\Fabian Ramirez\\\\OneDrive\\\\Documentos\\\\iQFleet\\\\iQFleet\" -Recurse -Directory | Select-Object -First 20 | ForEach-Object { $_.FullName })",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Fabian Ramirez\\\\OneDrive\\\\Documentos\\\\iQFleet\\\\iQFleet\\\\src\\\\main\\\\java\\\\Infrastructure\\\\Repositories\\\\GenericJpaRepository.java\")",
+      "Bash(Remove-Item \"C:\\\\Users\\\\Fabian Ramirez\\\\OneDrive\\\\Documentos\\\\iQFleet\\\\iQFleet\\\\src\\\\main\\\\java\\\\Domain\\\\Repositories\\\\Repository.java\")"
+    ]
+  }
+}

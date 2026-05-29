@@ -1,9 +1,9 @@
 package Infrastructure.Repositories;
 
-import Domain.Entities.Document;
 import Domain.Enums.DocumentStatus;
 import Domain.Enums.DocumentType;
-import Domain.Repositories.DocumentRepository;
+import Infrastructure.Persistence.Entities.DocumentJpaEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface JpaDocumentRepository extends GenericJpaRepository<Document>, DocumentRepository {
+public interface JpaDocumentRepository extends JpaRepository<DocumentJpaEntity, UUID> {
 
-    List<Document> findByDriverId(UUID driverId);
+    List<DocumentJpaEntity> findByDriver_Id(UUID driverId);
 
-    List<Document> findByVehicleId(UUID vehicleId);
+    List<DocumentJpaEntity> findByVehicle_Id(UUID vehicleId);
 
-    List<Document> findByStatus(DocumentStatus status);
+    List<DocumentJpaEntity> findByStatus(DocumentStatus status);
 
-    List<Document> findByExpiryDateBeforeAndStatusNot(LocalDate date, DocumentStatus status);
+    List<DocumentJpaEntity> findByExpiryDateBeforeAndStatusNot(LocalDate date, DocumentStatus status);
 
-    List<Document> findByDocumentTypeAndVehicleId(DocumentType documentType, UUID vehicleId);
+    List<DocumentJpaEntity> findByDocumentTypeAndVehicle_Id(DocumentType documentType, UUID vehicleId);
 
-    List<Document> findByDocumentTypeAndDriverId(DocumentType documentType, UUID driverId);
+    List<DocumentJpaEntity> findByDocumentTypeAndDriver_Id(DocumentType documentType, UUID driverId);
 }
