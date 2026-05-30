@@ -15,4 +15,5 @@ public record RegisterUserCommand(
         String password,
         Role role
 ) implements ICommand<RegisterUserResponse> {
+
 }
