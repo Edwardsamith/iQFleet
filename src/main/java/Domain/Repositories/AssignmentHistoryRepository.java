@@ -6,7 +6,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface AssignmentHistoryRepository extends Repository<AssignmentHistory> {
+public interface AssignmentHistoryRepository {
+
+    AssignmentHistory save(AssignmentHistory assignmentHistory);
+
+    Optional<AssignmentHistory> findById(UUID id);
+
+    List<AssignmentHistory> findAll();
+
+    boolean existsById(UUID id);
+
+    void deleteById(UUID id);
 
     List<AssignmentHistory> findByVehicleId(UUID vehicleId);
 

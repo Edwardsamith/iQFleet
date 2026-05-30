@@ -6,9 +6,20 @@ import Domain.Enums.MovementType;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-public interface FinancialMovementRepository extends Repository<FinancialMovement> {
+public interface FinancialMovementRepository {
+
+    FinancialMovement save(FinancialMovement financialMovement);
+
+    Optional<FinancialMovement> findById(UUID id);
+
+    List<FinancialMovement> findAll();
+
+    boolean existsById(UUID id);
+
+    void deleteById(UUID id);
 
     List<FinancialMovement> findByVehicleId(UUID vehicleId);
 

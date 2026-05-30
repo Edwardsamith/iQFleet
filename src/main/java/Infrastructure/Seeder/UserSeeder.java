@@ -6,8 +6,8 @@ import Domain.Enums.DecisionStatus;
 import Domain.Enums.IdentificationType;
 import Domain.Enums.Role;
 import Domain.Enums.UserStatus;
-import Infrastructure.Repositories.JpaRegistrationRequestRepository;
-import Infrastructure.Repositories.JpaUserRepository;
+import Domain.Repositories.RegistrationRequestRepository;
+import Domain.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,8 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserSeeder {
 
-    private final JpaUserRepository userRepository;
-    private final JpaRegistrationRequestRepository registrationRequestRepository;
+    private final UserRepository userRepository;
+    private final RegistrationRequestRepository registrationRequestRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -45,9 +45,9 @@ public class UserSeeder {
                 .build());
 
         registrationRequestRepository.save(RegistrationRequest.builder()
-                .user(owner)
+                .userId(owner.getId())
                 .decision(DecisionStatus.APPROVED)
-                .reviewedBy(owner)
+                .reviewedById(owner.getId())
                 .decisionDate(LocalDateTime.now().minusMonths(3))
                 .build());
 
@@ -66,9 +66,9 @@ public class UserSeeder {
                 .build());
 
         registrationRequestRepository.save(RegistrationRequest.builder()
-                .user(admin)
+                .userId(admin.getId())
                 .decision(DecisionStatus.APPROVED)
-                .reviewedBy(owner)
+                .reviewedById(owner.getId())
                 .decisionDate(LocalDateTime.now().minusMonths(2))
                 .build());
 
@@ -86,7 +86,7 @@ public class UserSeeder {
                 .build());
 
         registrationRequestRepository.save(RegistrationRequest.builder()
-                .user(pending)
+                .userId(pending.getId())
                 .build());
 
         log.info("Usuarios creados: owner={}, admin={}, pendiente={}", owner.getEmail(), admin.getEmail(), pending.getEmail());

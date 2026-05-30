@@ -1,21 +1,22 @@
 package Infrastructure.Repositories;
 
-import Domain.Entities.Vehicle;
 import Domain.Enums.VehicleStatus;
-import Domain.Repositories.VehicleRepository;
+import Infrastructure.Persistence.Entities.VehicleJpaEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface JpaVehicleRepository extends GenericJpaRepository<Vehicle>, VehicleRepository {
+public interface JpaVehicleRepository extends JpaRepository<VehicleJpaEntity, UUID> {
 
-    Optional<Vehicle> findByPlateNumber(String plateNumber);
+    Optional<VehicleJpaEntity> findByPlateNumber(String plateNumber);
 
     boolean existsByPlateNumber(String plateNumber);
 
-    List<Vehicle> findByStatus(VehicleStatus status);
+    List<VehicleJpaEntity> findByStatus(VehicleStatus status);
 
-    List<Vehicle> findByAssignedDriverIsNull();
+    List<VehicleJpaEntity> findByAssignedDriverIsNull();
 }
