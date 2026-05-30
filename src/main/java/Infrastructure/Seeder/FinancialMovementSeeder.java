@@ -6,7 +6,7 @@ import Domain.Entities.Vehicle;
 import Domain.Enums.MovementCategory;
 import Domain.Enums.MovementType;
 import Domain.Enums.PaymentMethod;
-import Infrastructure.Repositories.JpaFinancialMovementRepository;
+import Domain.Repositories.FinancialMovementRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,13 +15,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class FinancialMovementSeeder {
 
-    private final JpaFinancialMovementRepository financialMovementRepository;
+    private final FinancialMovementRepository financialMovementRepository;
 
     /**
      * @param drivers  [0]=Carlos, [1]=Luis, [2]=María, [3]=Jorge, [4]=Ana
@@ -42,17 +43,17 @@ public class FinancialMovementSeeder {
         LocalDate today = LocalDate.now();
         List<FinancialMovement> movements = new ArrayList<>();
 
-        movements.addAll(buildBus1Movements(bus1, carlos, today));
-        movements.addAll(buildMicrobusMovements(microbus, luis, today));
-        movements.addAll(buildVanMovements(van, maria, today));
-        movements.addAll(buildBus2Movements(bus2, today));
-        movements.addAll(buildMinibusMovements(minibus, ana, today));
+        movements.addAll(buildBus1Movements(bus1.getId(), carlos.getId(), today));
+        movements.addAll(buildMicrobusMovements(microbus.getId(), luis.getId(), today));
+        movements.addAll(buildVanMovements(van.getId(), maria.getId(), today));
+        movements.addAll(buildBus2Movements(bus2.getId(), today));
+        movements.addAll(buildMinibusMovements(minibus.getId(), ana.getId(), today));
 
-        financialMovementRepository.saveAll(movements);
+        movements.forEach(financialMovementRepository::save);
         log.info("{} movimientos financieros creados.", movements.size());
     }
 
-    private List<FinancialMovement> buildBus1Movements(Vehicle bus1, Driver carlos, LocalDate today) {
+    private List<FinancialMovement> buildBus1Movements(UUID bus1Id, UUID carlosId, LocalDate today) {
         List<FinancialMovement> list = new ArrayList<>();
 
         // Recaudos diarios lun-sáb (últimos 60 días)
@@ -66,8 +67,8 @@ public class FinancialMovementSeeder {
                         .amount(new BigDecimal("180000.00"))
                         .date(date)
                         .description("Recaudo diario ruta norte")
-                        .vehicle(bus1)
-                        .driver(carlos)
+                        .vehicleId(bus1Id)
+                        .driverId(carlosId)
                         .registeredBy("andres.admin")
                         .build());
             }
@@ -81,7 +82,7 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("320000.00"))
                 .date(today.minusMonths(2).withDayOfMonth(5))
                 .description("Carga de combustible — estación Terpel")
-                .vehicle(bus1)
+                .vehicleId(bus1Id)
                 .registeredBy("andres.admin")
                 .build());
 
@@ -92,7 +93,7 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("310000.00"))
                 .date(today.minusMonths(1).withDayOfMonth(5))
                 .description("Carga de combustible — estación Terpel")
-                .vehicle(bus1)
+                .vehicleId(bus1Id)
                 .registeredBy("andres.admin")
                 .build());
 
@@ -104,8 +105,8 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("1500000.00"))
                 .date(today.minusMonths(2).withDayOfMonth(28))
                 .description("Pago nómina conductor")
-                .vehicle(bus1)
-                .driver(carlos)
+                .vehicleId(bus1Id)
+                .driverId(carlosId)
                 .registeredBy("fabian.owner")
                 .build());
 
@@ -116,15 +117,15 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("1500000.00"))
                 .date(today.minusMonths(1).withDayOfMonth(28))
                 .description("Pago nómina conductor")
-                .vehicle(bus1)
-                .driver(carlos)
+                .vehicleId(bus1Id)
+                .driverId(carlosId)
                 .registeredBy("fabian.owner")
                 .build());
 
         return list;
     }
 
-    private List<FinancialMovement> buildMicrobusMovements(Vehicle microbus, Driver luis, LocalDate today) {
+    private List<FinancialMovement> buildMicrobusMovements(UUID microbusId, UUID luisId, LocalDate today) {
         List<FinancialMovement> list = new ArrayList<>();
 
         // Recaudos diarios lun-vie (últimos 60 días)
@@ -138,8 +139,8 @@ public class FinancialMovementSeeder {
                         .amount(new BigDecimal("130000.00"))
                         .date(date)
                         .description("Recaudo diario ruta centro")
-                        .vehicle(microbus)
-                        .driver(luis)
+                        .vehicleId(microbusId)
+                        .driverId(luisId)
                         .registeredBy("andres.admin")
                         .build());
             }
@@ -152,7 +153,7 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("450000.00"))
                 .date(today.minusMonths(1).withDayOfMonth(12))
                 .description("Cambio de aceite y filtros — 30.000 km")
-                .vehicle(microbus)
+                .vehicleId(microbusId)
                 .registeredBy("andres.admin")
                 .build());
 
@@ -163,15 +164,15 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("1300000.00"))
                 .date(today.minusMonths(1).withDayOfMonth(28))
                 .description("Pago nómina conductor")
-                .vehicle(microbus)
-                .driver(luis)
+                .vehicleId(microbusId)
+                .driverId(luisId)
                 .registeredBy("fabian.owner")
                 .build());
 
         return list;
     }
 
-    private List<FinancialMovement> buildVanMovements(Vehicle van, Driver maria, LocalDate today) {
+    private List<FinancialMovement> buildVanMovements(UUID vanId, UUID mariaId, LocalDate today) {
         List<FinancialMovement> list = new ArrayList<>();
 
         // Recaudos diarios lun-vie (últimos 60 días)
@@ -185,8 +186,8 @@ public class FinancialMovementSeeder {
                         .amount(new BigDecimal("150000.00"))
                         .date(date)
                         .description("Recaudo diario ruta sur")
-                        .vehicle(van)
-                        .driver(maria)
+                        .vehicleId(vanId)
+                        .driverId(mariaId)
                         .registeredBy("andres.admin")
                         .build());
             }
@@ -199,15 +200,15 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("1400000.00"))
                 .date(today.minusMonths(1).withDayOfMonth(28))
                 .description("Pago nómina conductor")
-                .vehicle(van)
-                .driver(maria)
+                .vehicleId(vanId)
+                .driverId(mariaId)
                 .registeredBy("fabian.owner")
                 .build());
 
         return list;
     }
 
-    private List<FinancialMovement> buildBus2Movements(Vehicle bus2, LocalDate today) {
+    private List<FinancialMovement> buildBus2Movements(UUID bus2Id, LocalDate today) {
         return List.of(
                 FinancialMovement.builder()
                         .movementType(MovementType.EXPENSE)
@@ -217,7 +218,7 @@ public class FinancialMovementSeeder {
                         .date(today.minusDays(5))
                         .description("Reparación sistema de frenos — Taller Automotriz Central")
                         .notes("Incluye: pastillas, discos y bomba de frenos.")
-                        .vehicle(bus2)
+                        .vehicleId(bus2Id)
                         .registeredBy("andres.admin")
                         .build(),
 
@@ -228,13 +229,13 @@ public class FinancialMovementSeeder {
                         .amount(new BigDecimal("850000.00"))
                         .date(today.minusMonths(3).withDayOfMonth(1))
                         .description("Póliza de responsabilidad civil extracontractual")
-                        .vehicle(bus2)
+                        .vehicleId(bus2Id)
                         .registeredBy("fabian.owner")
                         .build()
         );
     }
 
-    private List<FinancialMovement> buildMinibusMovements(Vehicle minibus, Driver ana, LocalDate today) {
+    private List<FinancialMovement> buildMinibusMovements(UUID minibusId, UUID anaId, LocalDate today) {
         List<FinancialMovement> list = new ArrayList<>();
 
         // Recaudos diarios lun-sáb (últimos 60 días)
@@ -248,8 +249,8 @@ public class FinancialMovementSeeder {
                         .amount(new BigDecimal("110000.00"))
                         .date(date)
                         .description("Recaudo diario ruta occidente")
-                        .vehicle(minibus)
-                        .driver(ana)
+                        .vehicleId(minibusId)
+                        .driverId(anaId)
                         .registeredBy("andres.admin")
                         .build());
             }
@@ -262,8 +263,8 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("1250000.00"))
                 .date(today.minusMonths(1).withDayOfMonth(28))
                 .description("Pago nómina conductor")
-                .vehicle(minibus)
-                .driver(ana)
+                .vehicleId(minibusId)
+                .driverId(anaId)
                 .registeredBy("fabian.owner")
                 .build());
 
@@ -274,7 +275,7 @@ public class FinancialMovementSeeder {
                 .amount(new BigDecimal("380000.00"))
                 .date(today.minusMonths(2).withDayOfMonth(15))
                 .description("Impuesto de rodamiento anual")
-                .vehicle(minibus)
+                .vehicleId(minibusId)
                 .registeredBy("fabian.owner")
                 .build());
 

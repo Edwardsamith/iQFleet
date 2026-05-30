@@ -1,4 +1,3 @@
-
 package Infrastructure.Seeder;
 
 import Domain.Entities.Driver;
@@ -6,7 +5,7 @@ import Domain.Entities.User;
 import Domain.Entities.Vehicle;
 import Domain.Enums.VehicleStatus;
 import Domain.Enums.VehicleType;
-import Infrastructure.Repositories.JpaVehicleRepository;
+import Domain.Repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VehicleSeeder {
 
-    private final JpaVehicleRepository vehicleRepository;
+    private final VehicleRepository vehicleRepository;
 
     /**
      * @param users   [0]=owner, [1]=admin
@@ -35,69 +34,69 @@ public class VehicleSeeder {
         Driver maria  = drivers.get(2);
         Driver ana    = drivers.get(4);
 
-        List<Vehicle> vehicles = vehicleRepository.saveAll(List.of(
-                Vehicle.builder()
+        List<Vehicle> vehicles = List.of(
+                vehicleRepository.save(Vehicle.builder()
                         .plateNumber("ABC-123")
                         .brand("Mercedes-Benz")
                         .vehicleModel("Sprinter 516")
                         .vehicleType(VehicleType.BUS)
                         .year(2022)
                         .status(VehicleStatus.ACTIVE)
-                        .responsible(owner)
+                        .responsibleId(owner.getId())
                         .registrationDate(LocalDate.of(2022, 3, 15))
-                        .assignedDriver(carlos)
+                        .assignedDriverId(carlos.getId())
                         .notes("Bus principal de ruta norte. Revisión técnica al día.")
-                        .build(),
+                        .build()),
 
-                Vehicle.builder()
+                vehicleRepository.save(Vehicle.builder()
                         .plateNumber("XYZ-456")
                         .brand("Toyota")
                         .vehicleModel("HiAce Commuter")
                         .vehicleType(VehicleType.MICROBUS)
                         .year(2021)
                         .status(VehicleStatus.ACTIVE)
-                        .responsible(owner)
+                        .responsibleId(owner.getId())
                         .registrationDate(LocalDate.of(2021, 7, 20))
-                        .assignedDriver(luis)
-                        .build(),
+                        .assignedDriverId(luis.getId())
+                        .build()),
 
-                Vehicle.builder()
+                vehicleRepository.save(Vehicle.builder()
                         .plateNumber("DEF-789")
                         .brand("Ford")
                         .vehicleModel("Transit 350")
                         .vehicleType(VehicleType.VAN)
                         .year(2023)
                         .status(VehicleStatus.ACTIVE)
-                        .responsible(admin)
+                        .responsibleId(admin.getId())
                         .registrationDate(LocalDate.of(2023, 1, 10))
-                        .assignedDriver(maria)
+                        .assignedDriverId(maria.getId())
                         .notes("Vehículo nuevo. Garantía vigente hasta 2026.")
-                        .build(),
+                        .build()),
 
-                Vehicle.builder()
+                vehicleRepository.save(Vehicle.builder()
                         .plateNumber("GHI-012")
                         .brand("Chevrolet")
                         .vehicleModel("NPR 4.8")
                         .vehicleType(VehicleType.BUS)
                         .year(2019)
                         .status(VehicleStatus.UNDER_MAINTENANCE)
-                        .responsible(owner)
+                        .responsibleId(owner.getId())
                         .registrationDate(LocalDate.of(2019, 11, 5))
                         .notes("En taller por falla en sistema de frenos. Est. regreso: 3 días.")
-                        .build(),
+                        .build()),
 
-                Vehicle.builder()
+                vehicleRepository.save(Vehicle.builder()
                         .plateNumber("JKL-345")
                         .brand("Hyundai")
                         .vehicleModel("County")
                         .vehicleType(VehicleType.MINIBUS)
                         .year(2020)
                         .status(VehicleStatus.ACTIVE)
-                        .responsible(admin)
+                        .responsibleId(admin.getId())
                         .registrationDate(LocalDate.of(2020, 6, 28))
-                        .assignedDriver(ana)
-                        .build()
-        ));
+                        .assignedDriverId(ana.getId())
+                        .build())
+        );
 
         log.info("{} vehículos creados.", vehicles.size());
         return vehicles;

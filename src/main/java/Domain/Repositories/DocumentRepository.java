@@ -6,9 +6,20 @@ import Domain.Enums.DocumentType;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-public interface DocumentRepository extends Repository<Document> {
+public interface DocumentRepository {
+
+    Document save(Document document);
+
+    Optional<Document> findById(UUID id);
+
+    List<Document> findAll();
+
+    boolean existsById(UUID id);
+
+    void deleteById(UUID id);
 
     List<Document> findByDriverId(UUID driverId);
 

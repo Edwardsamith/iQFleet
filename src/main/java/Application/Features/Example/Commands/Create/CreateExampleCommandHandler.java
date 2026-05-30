@@ -5,46 +5,58 @@ import Application.Result.Result;
 import Application.Result.Unit;
 import Domain.Entities.Example;
 import Domain.Repositories.ExampleRepository;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 
+@Component
 public class CreateExampleCommandHandler implements IRequestHandler<CreateExampleCommand, Unit> {
 
-    private final ExampleRepository _exampleRepository;
+    private final ExampleRepository exampleRepository;
 
     public CreateExampleCommandHandler(ExampleRepository exampleRepository) {
-        _exampleRepository =  exampleRepository;
+        this.exampleRepository = exampleRepository;
     }
 
     @Override
     public Result<Unit> handle(CreateExampleCommand request) {
 
-        var errores = handleException(request);
+        var errors = validate(request);
 
-        if(errores.size() > 0){
-            return Result.Failure(errores);
+        if (!errors.isEmpty()) {
+            return Result.Failure(errors);
         }
 
         try {
-            Example example = new Example();
+
+
+            Example example = Example.builder()
+                    .name(request.getName())
+                    .apellido(request.getApellido())
+                    .build();
+
             example.setName(request.getName());
-            _exampleRepository.saveee(example);
+            example.setApellido(request.getApellido());
+
+
+            exampleRepository.save(example);
+
+
             return Result.Success();
-        }catch (Exception e){
+
+        } catch (Exception e) {
             return Result.Failure(e.getMessage());
         }
     }
 
-    private ArrayList<String> handleException(CreateExampleCommand request) {
+    private ArrayList<String> validate(CreateExampleCommand request) {
         ArrayList<String> errors = new ArrayList<>();
-
-        if(request.getName() == null){
-            errors.add("El nombre del example no puede ser nulo");
+        if (request.getName() == null || request.getName().isBlank()) {
+            errors.add("El nombre no puede ser nulo o vacío");
         }
-        if(request.getApellido() == null){
-            errors.add("El Apellido del example no puede ser nulo");
+        if (request.getApellido() == null || request.getApellido().isBlank()) {
+            errors.add("El apellido no puede ser nulo o vacío");
         }
-
         return errors;
-
     }
 }
