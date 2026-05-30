@@ -6,8 +6,19 @@ import Domain.Enums.DriverStatus;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface DriverRepository extends Repository<Driver> {
+public interface DriverRepository {
+
+    Driver save(Driver driver);
+
+    Optional<Driver> findById(UUID id);
+
+    List<Driver> findAll();
+
+    boolean existsById(UUID id);
+
+    void deleteById(UUID id);
 
     Optional<Driver> findByIdentificationNumber(String identificationNumber);
 

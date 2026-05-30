@@ -1,8 +1,8 @@
 package Infrastructure.Repositories;
 
-import Domain.Entities.FinancialMovement;
 import Domain.Enums.MovementType;
-import Domain.Repositories.FinancialMovementRepository;
+import Infrastructure.Persistence.Entities.FinancialMovementJpaEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,16 +13,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface JpaFinancialMovementRepository
-        extends GenericJpaRepository<FinancialMovement>, FinancialMovementRepository {
+public interface JpaFinancialMovementRepository extends JpaRepository<FinancialMovementJpaEntity, UUID> {
 
-    List<FinancialMovement> findByVehicleId(UUID vehicleId);
+    List<FinancialMovementJpaEntity> findByVehicle_Id(UUID vehicleId);
 
-    List<FinancialMovement> findByVehicleIdAndDateBetween(UUID vehicleId, LocalDate from, LocalDate to);
+    List<FinancialMovementJpaEntity> findByVehicle_IdAndDateBetween(UUID vehicleId, LocalDate from, LocalDate to);
 
-    List<FinancialMovement> findByMovementTypeAndVehicleId(MovementType movementType, UUID vehicleId);
+    List<FinancialMovementJpaEntity> findByMovementTypeAndVehicle_Id(MovementType movementType, UUID vehicleId);
 
-    @Query("SELECT COALESCE(SUM(m.amount), 0) FROM FinancialMovement m " +
+    @Query("SELECT COALESCE(SUM(m.amount), 0) FROM FinancialMovementJpaEntity m " +
            "WHERE m.vehicle.id = :vehicleId AND m.movementType = :movementType " +
            "AND m.date BETWEEN :from AND :to AND m.status = 'ACTIVE'")
     BigDecimal sumAmountByVehicleIdAndMovementTypeAndDateBetween(
