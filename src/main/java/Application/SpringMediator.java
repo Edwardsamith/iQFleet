@@ -5,6 +5,7 @@ import Application.Abstractions.IMediator;
 import Application.Abstractions.IRequest;
 import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;
+import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -48,8 +49,8 @@ public class SpringMediator implements IMediator {
 
         for (IRequestHandler<?, ?> handler : allHandlers.values()) {
 
-            // Revisa qué tipo de request maneja este handler
-            Type[] interfaces = handler.getClass().getGenericInterfaces();
+            // Revisa qué tipo de request maneja este handler (usando la clase real, no el proxy)
+            Type[] interfaces = AopProxyUtils.ultimateTargetClass(handler).getGenericInterfaces();
 
             for (Type iface : interfaces) {
                 if (iface instanceof ParameterizedType pt) {

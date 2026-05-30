@@ -51,7 +51,7 @@ public class CreateDriverCommandHandler
                         : LocalDate.now())
                 .build();
 
-        driverRepository.saveee(driver);
+        driverRepository.save(driver);
 
         return Result.Success();
     }

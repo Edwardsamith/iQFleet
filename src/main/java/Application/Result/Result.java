@@ -23,6 +23,7 @@ public class Result<T> {
         ArrayList<String> errors = new ArrayList<>();
         errors.add(error);
         this.errors = errors;
+        this.success = false;
     }
 
     public Result(T value) {

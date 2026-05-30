@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface Repository<T extends Entity> {
 
-    T saveee(T entity);
+    T save(T entity);
 
     T update(T entity);
 

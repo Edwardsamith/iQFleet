@@ -40,9 +40,11 @@ public class GetDriversByFilterQueryHandler
 
         // Filtro por vencimiento próximo
         if (query.getExpiresInDays() != null) {
-            LocalDate limit = LocalDate.now().plusDays(query.getExpiresInDays());
+            LocalDate today = LocalDate.now();
+            LocalDate limit = today.plusDays(query.getExpiresInDays());
             drivers = drivers.stream()
                     .filter(d -> d.getLicenseExpiry() != null
+                            && !d.getLicenseExpiry().isBefore(today)
                             && !d.getLicenseExpiry().isAfter(limit))
                     .collect(Collectors.toList());
         }
