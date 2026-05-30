@@ -4,21 +4,27 @@ import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;
 import Application.Result.Unit;
 import Domain.Repositories.ExampleRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DeleteExampleCommandHandler implements IRequestHandler<DeleteExampleCommand, Unit> {
 
-    ExampleRepository _exampleRepository;
+    private final ExampleRepository exampleRepository;
 
     public DeleteExampleCommandHandler(ExampleRepository exampleRepository) {
-        _exampleRepository = exampleRepository;
+        this.exampleRepository = exampleRepository;
     }
 
+    @Override
     public Result<Unit> handle(DeleteExampleCommand request) {
         try {
-            _exampleRepository.delete(request.getId());
+            if (!exampleRepository.existsById(request.getId())) {
+                return Result.Failure("Example no encontrado con id: " + request.getId());
+            }
+            exampleRepository.deleteById(request.getId());
             return Result.Success();
-        }catch (Exception e) {
+        } catch (Exception e) {
             return Result.Failure(e.getMessage());
         }
-    };
+    }
 }

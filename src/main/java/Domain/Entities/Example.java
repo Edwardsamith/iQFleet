@@ -1,8 +1,13 @@
 package Domain.Entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-public  class Example extends Entity {
-    private @Getter @Setter String name;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Example extends Entity {
+    private String name;
+    private String apellido;
 }
