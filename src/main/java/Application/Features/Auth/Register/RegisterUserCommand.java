@@ -1,4 +1,4 @@
-package Application.User.Register;
+package Application.Features.Auth.Register;
 
 import Application.Abstractions.ICommand;
 import Domain.Enums.Role;

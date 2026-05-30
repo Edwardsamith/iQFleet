@@ -1,7 +1,9 @@
-package Application.User.Register;
+package Application.Features.Auth.Register;
+
+import java.util.UUID;
 
 public record RegisterUserResponse(
-    Long userId,
+    UUID userId,
     String username,
     String message
     ){
