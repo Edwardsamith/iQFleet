@@ -1,10 +1,12 @@
 package Infrastructure.Repositories;
 
 import Domain.Entities.Document;
+import Domain.Entities.DocumentVersion;
 import Domain.Enums.DocumentStatus;
 import Domain.Enums.DocumentType;
 import Domain.Repositories.DocumentRepository;
 import Infrastructure.Persistence.Entities.DocumentJpaEntity;
+import Infrastructure.Persistence.Entities.DocumentVersionJpaEntity;
 import Infrastructure.Persistence.Entities.DriverJpaEntity;
 import Infrastructure.Persistence.Entities.VehicleJpaEntity;
 import Infrastructure.Persistence.Mappers.DocumentMapper;
@@ -31,6 +33,38 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         VehicleJpaEntity vehicleRef = domain.getVehicleId() != null ? jpaVehicleRepo.getReferenceById(domain.getVehicleId()) : null;
         DocumentJpaEntity saved = jpaRepo.save(DocumentMapper.toJpa(domain, driverRef, vehicleRef));
         return DocumentMapper.toDomain(saved);
+    }
+
+    @Override
+    public Document update(Document domain) {
+        DriverJpaEntity  driverRef  = domain.getDriverId()  != null ? jpaDriverRepo.getReferenceById(domain.getDriverId())   : null;
+        VehicleJpaEntity vehicleRef = domain.getVehicleId() != null ? jpaVehicleRepo.getReferenceById(domain.getVehicleId()) : null;
+        DocumentJpaEntity jpa = jpaRepo.findById(domain.getId()).orElseThrow();
+        domain.calculateStatus();
+        jpa.setName(domain.getName());
+        jpa.setDocumentType(domain.getDocumentType());
+        jpa.setReferenceNumber(domain.getReferenceNumber());
+        jpa.setIssuingEntity(domain.getIssuingEntity());
+        jpa.setIssueDate(domain.getIssueDate());
+        jpa.setExpiryDate(domain.getExpiryDate());
+        jpa.setStatus(domain.getStatus());
+        jpa.setFileUrl(domain.getFileUrl());
+        jpa.setFileFormat(domain.getFileFormat());
+        jpa.setNotes(domain.getNotes());
+        jpa.setUploadDate(domain.getUploadDate());
+        jpa.setUploadedBy(domain.getUploadedBy());
+        jpa.setDriver(driverRef);
+        jpa.setVehicle(vehicleRef);
+        for (DocumentVersion v : domain.getVersions()) {
+            DocumentVersionJpaEntity vJpa = new DocumentVersionJpaEntity();
+            vJpa.setDocument(jpa);
+            vJpa.setFileUrl(v.getFileUrl());
+            vJpa.setPreviousExpiryDate(v.getPreviousExpiryDate());
+            vJpa.setReplacedBy(v.getReplacedBy());
+            vJpa.setReplacedAt(v.getReplacedAt());
+            jpa.getVersions().add(vJpa);
+        }
+        return DocumentMapper.toDomain(jpaRepo.save(jpa));
     }
 
     @Override

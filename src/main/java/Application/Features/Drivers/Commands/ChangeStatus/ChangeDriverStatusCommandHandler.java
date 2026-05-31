@@ -5,6 +5,7 @@ import Application.Result.Result;
 import Application.Result.Unit;
 import Domain.Entities.Driver;
 import Domain.Repositories.DriverRepository;
+import Domain.Repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +15,11 @@ public class ChangeDriverStatusCommandHandler
         implements IRequestHandler<ChangeDriverStatusCommand, Unit> {
 
     private final DriverRepository driverRepository;
+    private final VehicleRepository vehicleRepository;
 
     @Override
     public Result<Unit> handle(ChangeDriverStatusCommand command) {
 
-        // Busca el conductor
         Driver driver = driverRepository.findById(command.getId())
                 .orElse(null);
 
@@ -28,11 +29,11 @@ public class ChangeDriverStatusCommandHandler
 
         // Regla de negocio: si se desactiva y tiene vehículo asignado,
         // se desasigna automáticamente
-        if (command.getStatus() == Domain.Enums.DriverStatus.INACTIVE
-                && driver.getCurrentVehicle() != null) {
-
-            driver.getCurrentVehicle().setAssignedDriver(null);
-            driver.setCurrentVehicle(null);
+        if (command.getStatus() == Domain.Enums.DriverStatus.INACTIVE) {
+            vehicleRepository.findByAssignedDriverId(driver.getId()).ifPresent(vehicle -> {
+                vehicle.setAssignedDriverId(null);
+                vehicleRepository.save(vehicle);
+            });
         }
 
         driver.setStatus(command.getStatus());

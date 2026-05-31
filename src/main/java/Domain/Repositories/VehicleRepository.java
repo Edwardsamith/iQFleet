@@ -26,4 +26,6 @@ public interface VehicleRepository {
     List<Vehicle> findByStatus(VehicleStatus status);
 
     List<Vehicle> findByAssignedDriverIsNull();
+
+    Optional<Vehicle> findByAssignedDriverId(UUID driverId);
 }

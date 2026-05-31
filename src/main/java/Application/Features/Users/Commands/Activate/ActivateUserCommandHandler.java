@@ -1,18 +1,18 @@
-package Application.Features.Users.Disable;
+package Application.Features.Users.Commands.Activate;
 
 import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;
 import Domain.Enums.UserStatus;
 import Domain.Repositories.UserRepository;
 
-public class DisableUserCommandHandler
+public class ActivateUserCommandHandler
         implements IRequestHandler<
-        DisableUserCommand,
+        ActivateUserCommand,
         String> {
 
     private final UserRepository repository;
 
-    public DisableUserCommandHandler(
+    public ActivateUserCommandHandler(
             UserRepository repository
     ) {
         this.repository = repository;
@@ -20,12 +20,13 @@ public class DisableUserCommandHandler
 
     @Override
     public Result<String> handle(
-            DisableUserCommand command
+            ActivateUserCommand command
     ) {
 
-        var optionalUser = repository.findById(
-                command.userId()
-        );
+        var optionalUser =
+                repository.findById(
+                        command.userId()
+                );
 
         if (optionalUser.isEmpty()) {
 
@@ -36,12 +37,12 @@ public class DisableUserCommandHandler
 
         var user = optionalUser.get();
 
-        user.setStatus(UserStatus.INACTIVE);
+        user.setStatus(UserStatus.ACTIVE);
 
         repository.save(user);
 
         return Result.Success(
-                "Usuario desactivado correctamente"
+                "Usuario activado correctamente"
         );
     }
 }

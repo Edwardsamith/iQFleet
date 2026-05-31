@@ -25,6 +25,11 @@ public class DriverRepositoryImpl implements DriverRepository {
     }
 
     @Override
+    public Driver update(Driver domain) {
+        return DriverMapper.toDomain(jpaRepo.save(DriverMapper.toJpa(domain)));
+    }
+
+    @Override
     public Optional<Driver> findById(UUID id) {
         return jpaRepo.findById(id).map(DriverMapper::toDomain);
     }
