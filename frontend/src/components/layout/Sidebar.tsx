@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Truck, Users, FileText, DollarSign,
-  Settings, ChevronLeft, Menu, X, LogOut,
+  Settings, ChevronLeft, Menu, X, LogOut, UserCog,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
@@ -19,6 +19,7 @@ const navItems: NavItem[] = [
   { label: 'Conductores', path: '/drivers',   icon: <Users size={17} /> },
   { label: 'Documentos',  path: '/documents', icon: <FileText size={17} /> },
   { label: 'Finanzas',    path: '/finances',  icon: <DollarSign size={17} /> },
+  { label: 'Usuarios',    path: '/users',     icon: <UserCog size={17} /> },
 ]
 
 const bottomItems: NavItem[] = [

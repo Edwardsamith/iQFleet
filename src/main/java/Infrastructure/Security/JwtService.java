@@ -57,4 +57,23 @@ public class JwtService {
             return false;
         }
     }
+
+    public String generateRecoveryToken(String email) {
+        return Jwts.builder()
+                .subject(email)
+                .claim("recovery", true)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000L))
+                .signWith(key())
+                .compact();
+    }
+
+    public boolean isRecoveryToken(String token) {
+        try {
+            Claims claims = extractClaims(token);
+            return Boolean.TRUE.equals(claims.get("recovery", Boolean.class));
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
