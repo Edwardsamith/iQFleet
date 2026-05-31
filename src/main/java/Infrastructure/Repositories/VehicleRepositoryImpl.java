@@ -68,4 +68,9 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     public List<Vehicle> findByAssignedDriverIsNull() {
         return jpaRepo.findByAssignedDriverIsNull().stream().map(VehicleMapper::toDomain).collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Vehicle> findByAssignedDriverId(UUID driverId) {
+        return jpaRepo.findByAssignedDriver_Id(driverId).map(VehicleMapper::toDomain);
+    }
 }

@@ -24,15 +24,15 @@ public class GetDocumentsByFilterQueryHandler
 
         if (query.getDriverId() != null) {
             documents = documents.stream()
-                    .filter(d -> d.getDriver() != null &&
-                            d.getDriver().getId().equals(query.getDriverId()))
+                    .filter(d -> d.getDriverId() != null &&
+                            d.getDriverId().equals(query.getDriverId()))
                     .collect(Collectors.toList());
         }
 
         if (query.getVehicleId() != null) {
             documents = documents.stream()
-                    .filter(d -> d.getVehicle() != null &&
-                            d.getVehicle().getId().equals(query.getVehicleId()))
+                    .filter(d -> d.getVehicleId() != null &&
+                            d.getVehicleId().equals(query.getVehicleId()))
                     .collect(Collectors.toList());
         }
 

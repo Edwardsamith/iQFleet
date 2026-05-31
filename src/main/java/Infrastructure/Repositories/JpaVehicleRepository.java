@@ -19,4 +19,6 @@ public interface JpaVehicleRepository extends JpaRepository<VehicleJpaEntity, UU
     List<VehicleJpaEntity> findByStatus(VehicleStatus status);
 
     List<VehicleJpaEntity> findByAssignedDriverIsNull();
+
+    Optional<VehicleJpaEntity> findByAssignedDriver_Id(UUID driverId);
 }

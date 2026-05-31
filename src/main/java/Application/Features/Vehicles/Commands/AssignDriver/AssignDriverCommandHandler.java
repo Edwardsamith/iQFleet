@@ -65,7 +65,7 @@ public class AssignDriverCommandHandler
         }
 
         // Regla de negocio: el conductor no puede estar en otro vehículo
-        if (driver.getCurrentVehicle() != null) {
+        if (assignmentHistoryRepository.findByDriverIdAndEndDateIsNull(driver.getId()).isPresent()) {
             return Result.Failure("El conductor ya está asignado a otro vehículo");
         }
 
@@ -82,27 +82,27 @@ public class AssignDriverCommandHandler
                 .findByVehicleIdAndEndDateIsNull(vehicle.getId())
                 .ifPresent(history -> {
                     history.setEndDate(LocalDate.now());
-                    assignmentHistoryRepository.update(history);
+                    assignmentHistoryRepository.save(history);
                 });
 
         // Crea nueva asignación en el historial
         AssignmentHistory history = AssignmentHistory.builder()
-                .vehicle(vehicle)
-                .driver(driver)
+                .vehicleId(vehicle.getId())
+                .driverId(driver.getId())
                 .startDate(LocalDate.now())
                 .build();
-        assignmentHistoryRepository.saveee(history);
+        assignmentHistoryRepository.save(history);
 
-        // Actualiza la relación bidireccional
-        vehicle.setAssignedDriver(driver);
-        vehicleRepository.update(vehicle);
+        // Asigna el conductor al vehículo
+        vehicle.setAssignedDriverId(driver.getId());
+        vehicleRepository.save(vehicle);
 
         return Result.Success();
     }
 
     private Result<Unit> unassignDriver(Vehicle vehicle) {
 
-        if (vehicle.getAssignedDriver() == null) {
+        if (vehicle.getAssignedDriverId() == null) {
             return Result.Failure("El vehículo no tiene conductor asignado");
         }
 
@@ -111,12 +111,11 @@ public class AssignDriverCommandHandler
                 .findByVehicleIdAndEndDateIsNull(vehicle.getId())
                 .ifPresent(history -> {
                     history.setEndDate(LocalDate.now());
-                    assignmentHistoryRepository.update(history);
+                    assignmentHistoryRepository.save(history);
                 });
 
-        vehicle.getAssignedDriver().setCurrentVehicle(null);
-        vehicle.setAssignedDriver(null);
-        vehicleRepository.update(vehicle);
+        vehicle.setAssignedDriverId(null);
+        vehicleRepository.save(vehicle);
 
         return Result.Success();
     }

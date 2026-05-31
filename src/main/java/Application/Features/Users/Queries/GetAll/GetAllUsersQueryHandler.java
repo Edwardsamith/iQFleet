@@ -1,4 +1,4 @@
-package Application.Features.Users.GetAll;
+package Application.Features.Users.Queries.GetAll;
 
 import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;

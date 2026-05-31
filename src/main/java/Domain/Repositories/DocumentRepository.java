@@ -13,6 +13,8 @@ public interface DocumentRepository {
 
     Document save(Document document);
 
+    Document update(Document document);
+
     Optional<Document> findById(UUID id);
 
     List<Document> findAll();

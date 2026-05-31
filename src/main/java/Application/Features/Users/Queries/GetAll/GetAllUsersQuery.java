@@ -1,4 +1,4 @@
-package Application.Features.Users.GetAll;
+package Application.Features.Users.Queries.GetAll;
 
 import Application.Abstractions.IQuery;
 import java.util.List;

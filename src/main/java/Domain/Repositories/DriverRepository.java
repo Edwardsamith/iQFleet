@@ -12,6 +12,8 @@ public interface DriverRepository {
 
     Driver save(Driver driver);
 
+    Driver update(Driver driver);
+
     Optional<Driver> findById(UUID id);
 
     List<Driver> findAll();
