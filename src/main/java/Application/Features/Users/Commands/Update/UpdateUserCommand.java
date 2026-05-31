@@ -1,4 +1,4 @@
-package Application.Features.Users.Update;
+package Application.Features.Users.Commands.Update;
 
 import Application.Abstractions.ICommand;
 import Domain.Enums.Role;

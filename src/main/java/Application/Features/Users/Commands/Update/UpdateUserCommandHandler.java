@@ -1,8 +1,7 @@
-package Application.Features.Users.Update;
+package Application.Features.Users.Commands.Update;
 
 import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;
-import Domain.Entities.User;
 import Domain.Repositories.UserRepository;
 
 public class UpdateUserCommandHandler implements IRequestHandler<UpdateUserCommand, UpdateUserResponse> {
