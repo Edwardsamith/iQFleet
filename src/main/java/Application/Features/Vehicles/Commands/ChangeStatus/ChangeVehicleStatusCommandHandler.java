@@ -35,23 +35,22 @@ public class ChangeVehicleStatusCommandHandler
         // o se inactiva, se desasigna el conductor automáticamente
         if ((command.getStatus() == VehicleStatus.UNDER_MAINTENANCE
                 || command.getStatus() == VehicleStatus.INACTIVE)
-                && vehicle.getAssignedDriver() != null) {
+                && vehicle.getAssignedDriverId() != null) {
 
             // Cierra la asignación activa en el historial
             assignmentHistoryRepository
                     .findByVehicleIdAndEndDateIsNull(vehicle.getId())
                     .ifPresent(history -> {
                         history.setEndDate(LocalDate.now());
-                        assignmentHistoryRepository.update(history);
+                        assignmentHistoryRepository.save(history);
                     });
 
             // Desasigna el conductor
-            vehicle.getAssignedDriver().setCurrentVehicle(null);
-            vehicle.setAssignedDriver(null);
+            vehicle.setAssignedDriverId(null);
         }
 
         vehicle.setStatus(command.getStatus());
-        vehicleRepository.update(vehicle);
+        vehicleRepository.save(vehicle);
 
         return Result.Success();
     }

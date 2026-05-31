@@ -41,7 +41,7 @@ public class RenewDocumentCommandHandler
 
         // Guarda la versión anterior en el historial
         DocumentVersion version = DocumentVersion.builder()
-                .document(document)
+                .documentId(document.getId())
                 .fileUrl(document.getFileUrl())
                 .previousExpiryDate(document.getExpiryDate())
                 .replacedBy(command.getReplacedBy())

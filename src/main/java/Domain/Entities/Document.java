@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -29,6 +31,8 @@ public class Document extends Entity {
     private String uploadedBy;
     private UUID driverId;
     private UUID vehicleId;
+    @Builder.Default
+    private List<DocumentVersion> versions = new ArrayList<>();
 
     public void calculateStatus() {
         if (expiryDate == null) {

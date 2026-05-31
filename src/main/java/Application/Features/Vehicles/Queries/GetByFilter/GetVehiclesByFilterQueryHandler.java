@@ -36,7 +36,7 @@ public class GetVehiclesByFilterQueryHandler
 
         if (Boolean.TRUE.equals(query.getWithoutDriver())) {
             vehicles = vehicles.stream()
-                    .filter(v -> v.getAssignedDriver() == null)
+                    .filter(v -> v.getAssignedDriverId() == null)
                     .collect(Collectors.toList());
         }
 

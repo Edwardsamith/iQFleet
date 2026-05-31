@@ -3,7 +3,6 @@ package Application.Features.Vehicles.Commands.Update;
 import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;
 import Application.Result.Unit;
-import Domain.Entities.User;
 import Domain.Entities.Vehicle;
 import Domain.Repositories.UserRepository;
 import Domain.Repositories.VehicleRepository;
@@ -28,14 +27,11 @@ public class UpdateVehicleCommandHandler
             return Result.Failure("No se encontró un vehículo con ese ID");
         }
 
-        // Busca el responsable si se proporcionó
         if (command.getResponsibleId() != null) {
-            User responsible = userRepository.findById(command.getResponsibleId())
-                    .orElse(null);
-            if (responsible == null) {
+            if (!userRepository.existsById(command.getResponsibleId())) {
                 return Result.Failure("No se encontró el usuario responsable");
             }
-            vehicle.setResponsible(responsible);
+            vehicle.setResponsibleId(command.getResponsibleId());
         }
 
         // Actualiza solo los campos modificables
@@ -46,7 +42,7 @@ public class UpdateVehicleCommandHandler
         vehicle.setYear(command.getYear());
         vehicle.setNotes(command.getNotes());
 
-        vehicleRepository.update(vehicle);
+        vehicleRepository.save(vehicle);
 
         return Result.Success();
     }

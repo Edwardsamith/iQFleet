@@ -1,10 +1,10 @@
-package Application.Features.Users.Disable;
+package Application.Features.Users.Commands.Activate;
 
 import Application.Abstractions.ICommand;
 
 import java.util.UUID;
 
-public record DisableUserCommand(
+public record ActivateUserCommand(
         UUID userId
 ) implements ICommand<String> {
 }

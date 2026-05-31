@@ -91,13 +91,13 @@ public class CreateDocumentCommandHandler
                 .fileUrl(command.getFileUrl())
                 .fileFormat(command.getFileFormat())
                 .notes(command.getNotes())
-                .driver(driver)
-                .vehicle(vehicle)
+                .driverId(command.getDriverId())
+                .vehicleId(command.getVehicleId())
                 .uploadedBy(command.getUploadedBy())
                 .uploadDate(LocalDateTime.now())
                 .build();
 
-        documentRepository.saveee(document);
+        documentRepository.save(document);
 
         return Result.Success();
     }
