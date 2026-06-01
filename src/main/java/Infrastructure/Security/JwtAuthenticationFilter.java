@@ -44,11 +44,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         Claims claims = jwtService.extractClaims(token);
         String email = claims.getSubject();
         String role = claims.get("rol", String.class);
