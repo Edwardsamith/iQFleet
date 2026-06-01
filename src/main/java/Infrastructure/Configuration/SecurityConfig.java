@@ -63,6 +63,10 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PUBLIC_PATHS).permitAll()
+                        // RF-005: user management is OWNER-only
+                        .requestMatchers("/api/users/**").hasAuthority("ROLE_OWNER")
+                        // RF-009: dashboard accessible to OWNER and ADMIN
+                        .requestMatchers("/api/dashboard/**").hasAnyAuthority("ROLE_OWNER", "ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

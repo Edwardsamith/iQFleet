@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from '@/context/AuthContext'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import { RoleProtectedRoute } from '@/components/auth/RoleProtectedRoute'
 import { AppLayout } from '@/components/layout'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { DriversPage } from '@/pages/DriversPage'
@@ -33,7 +34,10 @@ export default function App() {
               <Route path="vehicles"   element={<VehiclesPage />} />
               <Route path="documents"  element={<DocumentsPage />} />
               <Route path="finances"   element={<FinancesPage />} />
-              <Route path="users"      element={<UsersPage />} />
+              {/* RF-005: user management is OWNER-only */}
+              <Route element={<RoleProtectedRoute allowedRoles={['ROLE_OWNER']} />}>
+                <Route path="users" element={<UsersPage />} />
+              </Route>
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
