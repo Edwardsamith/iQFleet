@@ -1,8 +1,10 @@
 package Application.Features.Reports.Financial;
 
+import java.math.BigDecimal;
+
 public record GetFinancialReportResponse(
-        double ingresos,
-        double egresos,
-        double balance
+        BigDecimal ingresos,
+        BigDecimal egresos,
+        BigDecimal balance
 ) {
 }
