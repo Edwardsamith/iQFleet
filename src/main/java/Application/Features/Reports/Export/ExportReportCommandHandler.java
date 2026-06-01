@@ -8,6 +8,6 @@ public class ExportReportCommandHandler implements IRequestHandler<
         ExportReportResponse> {
     @Override
     public Result<ExportReportResponse>handle(ExportReportCommand command){
-        return Result.Success(new ExportReportResponse("report.pdf", "Reporte exportado correctamente"));
+        return Result.Success(new ExportReportResponse("report.", "Reporte exportado correctamente", "mssg"));
     }
 }
