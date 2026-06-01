@@ -13,13 +13,17 @@ interface NavItem {
   badge?: number
 }
 
-const navItems: NavItem[] = [
+const BASE_NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard',   path: '/dashboard', icon: <LayoutDashboard size={17} /> },
   { label: 'Vehículos',   path: '/vehicles',  icon: <Truck size={17} /> },
   { label: 'Conductores', path: '/drivers',   icon: <Users size={17} /> },
   { label: 'Documentos',  path: '/documents', icon: <FileText size={17} /> },
   { label: 'Finanzas',    path: '/finances',  icon: <DollarSign size={17} /> },
-  { label: 'Usuarios',    path: '/users',     icon: <UserCog size={17} /> },
+]
+
+// RF-005: user management is visible only to OWNER
+const OWNER_NAV_ITEMS: NavItem[] = [
+  { label: 'Usuarios', path: '/users', icon: <UserCog size={17} /> },
 ]
 
 const bottomItems: NavItem[] = [
@@ -39,6 +43,10 @@ const ROLE_LABELS: Record<string, string> = {
 export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+
+  const navItems = user?.role === 'ROLE_OWNER'
+    ? [...BASE_NAV_ITEMS, ...OWNER_NAV_ITEMS]
+    : BASE_NAV_ITEMS
 
   const handleLogout = async () => {
     await logout()
