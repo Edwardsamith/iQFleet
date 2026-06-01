@@ -5,7 +5,7 @@
 | **ID** | RF-002 |
 | **Módulo** | Gestión de Vehículos |
 | **Prioridad** | Alta |
-| **Estado** | Pendiente de implementación |
+| **Estado** | Frontend implementado (E2E pendiente de backend) |
 | **Depende de** | RF-001 (conductores), RF-005 (autenticación) |
 | **Relacionado con** | RF-003 (documentos del vehículo), RF-004 (movimientos financieros) |
 

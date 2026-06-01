@@ -22,7 +22,7 @@ export type DriverStatus = 'ACTIVE' | 'INACTIVE'
 
 export type VehicleStatus = 'ACTIVE' | 'UNDER_MAINTENANCE' | 'INACTIVE'
 
-export type VehicleType = 'BUS' | 'TAXI' | 'MINIBUS' | 'MICROBUS' | 'VAN'
+export type VehicleType = 'BUS' | 'TAXI' | 'BUSETA' | 'MICROBUS' | 'VAN'
 
 export type LicenseCategory = 'A1' | 'A2' | 'B1' | 'B2' | 'B3' | 'C1' | 'C2' | 'C3'
 
@@ -98,12 +98,13 @@ export interface Vehicle extends BaseEntity {
   brand: string
   vehicleModel: string
   vehicleType: VehicleType
-  year: number
+  year?: number
   status: VehicleStatus
-  responsibleId?: string
-  registrationDate: string
+  responsibleName?: string
+  registrationDate?: string
   notes?: string
   assignedDriverId?: string
+  assignedDriverName?: string
 }
 
 export interface User extends BaseEntity {
