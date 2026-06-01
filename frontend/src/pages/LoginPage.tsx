@@ -154,12 +154,19 @@ export function LoginPage() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-xs text-slate-400">
-            ¿No tienes acceso?{' '}
-            <Link to="/register" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
-              Solicitar registro
-            </Link>
-          </p>
+          <div className="mt-6 space-y-2 text-center">
+            <p className="text-xs text-slate-400">
+              <Link to="/forgot-password" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </p>
+            <p className="text-xs text-slate-400">
+              ¿No tienes acceso?{' '}
+              <Link to="/register" className="text-blue-500 hover:text-blue-400 font-medium transition-colors">
+                Solicitar registro
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

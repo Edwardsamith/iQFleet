@@ -107,3 +107,30 @@ export async function getProfile(): Promise<UserProfile> {
   const response = await http.get<UserProfile>('/auth/me')
   return response.data
 }
+
+export async function requestPasswordRecovery(recipient: string): Promise<{ message: string }> {
+  const response = await http.post<{ message: string }>('/auth/recover-password', {
+    method: 'EMAIL',
+    recipient,
+  })
+  return response.data
+}
+
+export async function verifyRecoveryCode(
+  email: string,
+  code: string,
+): Promise<{ resetToken: string }> {
+  const response = await http.post<{ resetToken: string }>('/auth/verify-code', { email, code })
+  return response.data
+}
+
+export async function resetPassword(
+  resetToken: string,
+  newPassword: string,
+): Promise<{ message: string }> {
+  const response = await http.post<{ message: string }>('/auth/reset-password', {
+    resetToken,
+    newPassword,
+  })
+  return response.data
+}

@@ -31,13 +31,13 @@ public class UserSeeder {
      */
     public List<User> seed() {
         User owner = userRepository.save(User.builder()
-                .firstName("Fabian")
+                .firstName("Edward")
                 .lastName("Ramírez")
                 .identificationType(IdentificationType.CC)
                 .identificationNumber("1020345678")
-                .email("fabian.ramirez@iqfleet.co")
+                .email("Edward.ramirez@iqfleet.co")
                 .phone("3001234567")
-                .username("fabian.owner")
+                .username("Edward.owner")
                 .passwordHash(passwordEncoder.encode("Owner@2024"))
                 .role(Role.ROLE_OWNER)
                 .status(UserStatus.ACTIVE)

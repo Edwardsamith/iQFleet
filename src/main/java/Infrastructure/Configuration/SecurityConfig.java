@@ -31,7 +31,10 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/v3/api-docs/**",
             "/api/auth/login",
-            "/api/auth/registro"
+            "/api/auth/registro",
+            "/api/auth/recover-password",
+            "/api/auth/verify-code",
+            "/api/auth/reset-password"
     };
 
     @Bean
