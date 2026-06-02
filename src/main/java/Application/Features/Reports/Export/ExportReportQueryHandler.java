@@ -9,7 +9,7 @@ import Application.Features.Reports.Financial.GetFinancialReportResponse;
 import Application.Features.Reports.Operational.GetOperationalReportQuery;
 import Application.Features.Reports.Operational.GetOperationalReportResponse;
 import Application.Result.Result;
-import Application.Services.ReportExportService;
+import Application.Services.ExportReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class ExportReportQueryHandler
         implements IRequestHandler<ExportReportQuery, ExportReportResponse> {
 
     private final IMediator mediator;
-    private final ReportExportService exportService;
+    private final ExportReportService exportService;
 
     @Override
     public Result<ExportReportResponse> handle(ExportReportQuery query) {
