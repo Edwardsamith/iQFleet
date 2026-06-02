@@ -3,7 +3,7 @@ package Application.Features.Reports.Export;
 import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;
 
-public class ExportReportCommandHandler implements IRequestHandler<
+public class ExportReportQueryHandler implements IRequestHandler<
         ExportReportQuery,
         ExportReportResponse> {
     @Override
