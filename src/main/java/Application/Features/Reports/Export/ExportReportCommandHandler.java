@@ -4,10 +4,10 @@ import Application.Abstractions.IRequestHandler;
 import Application.Result.Result;
 
 public class ExportReportCommandHandler implements IRequestHandler<
-        ExportReportCommand,
+        ExportReportQuery,
         ExportReportResponse> {
     @Override
-    public Result<ExportReportResponse>handle(ExportReportCommand command){
+    public Result<ExportReportResponse>handle(ExportReportQuery command){
         return Result.Success(new ExportReportResponse("report.pdf", "Reporte exportado correctamente"));
     }
 }
