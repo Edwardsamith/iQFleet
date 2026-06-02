@@ -1,8 +1,13 @@
 package Application.Features.Reports.Export;
 
-public record ExportReportResponse(
-        String fileName,
-        String format,
-        String message
-) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class ExportReportResponse {
+    private final String fileName;
+    private final String contentType;
+    private final byte[] content;
+    private final String message;
 }
